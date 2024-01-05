@@ -135,6 +135,7 @@
     <ClCompile Include="GameSound.cpp" />
     <ClCompile Include="ResManager.cpp" />
     <ClCompile Include="SDLBird.cpp" />
+    <ClCompile Include="SDLGameWindow.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TextSprite.cpp" />
     <ClCompile Include="TickTimer.cpp" />
@@ -142,8 +143,10 @@
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Colors.h" />
     <ClInclude Include="GameSound.h" />
     <ClInclude Include="ResManager.h" />
+    <ClInclude Include="SDLGameWindow.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TextSprite.h" />
     <ClInclude Include="TickTimer.h" />

@@ -16,6 +16,9 @@
 #include "GameSound.h"
 #include "ResManager.h"
 
+#include "SDLGameWindow.h"
+#include "Colors.h"
+
 using namespace std;
 
 int main(int argc, char* args[])
@@ -23,8 +26,6 @@ int main(int argc, char* args[])
 	// Константы
 	const int SCREEN_WIDTH = 800;
 	const int SCREEN_HEIGHT = 600;
-	const int SCREEN_FPS = 60;
-	const int SCREEN_TICK_PER_FRAME = 1000 / SCREEN_FPS;
 
 	const int GRAVITY = 2; // гравитация, бессердечная ты...
 	const int TAP_POWER = 17; // сила с которой направляемся вверх
@@ -33,68 +34,37 @@ int main(int argc, char* args[])
 
 	const float BIRD_ANGLE = 5; // Угол наклона птицы
 
-	SDL_Renderer* renderer = NULL;
-	SDL_Window* window = NULL;
 	TTF_Font* fontNormal = NULL;
 	TTF_Font* fontTitle = NULL;
 
 	srand((unsigned)time(NULL));
 
 	try {
-		// Инициализация библиотек
-		if (SDL_Init(SDL_INIT_VIDEO) < 0)
-		{
-			throw logic_error("SDL could not init.");
-		}
-		SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-
-		IMG_Init(IMG_INIT_PNG);
-		TTF_Init();
-
-		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-		{
-			throw logic_error("Mixer could not init.");
-		}
-
-		// Инициализация окна
-		window = SDL_CreateWindow("SDL Bird", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
-			SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-		exceptionIfNull(window, "Window could not be created.");
-
-		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-		exceptionIfNull(renderer, "Renderer could not be created.");
-		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-
-		// Цвета
-		const SDL_Color COLOR_RED = { 0xFF, 0, 0 };
-		const SDL_Color COLOR_GREEN = { 0, 0xFF, 0 };
-		const SDL_Color COLOR_BLUE = { 0, 0, 0xFF };
-		const SDL_Color COLOR_YELLOW = { 0xFF, 0xFF, 0 };
-		const SDL_Color COLOR_ORANGE = { 0xFF, 0xA5, 0 };
+		SDLGameWindow window(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		// Шрифты
 		fontNormal = TTF_OpenFont("fonts/LuckiestGuy.ttf", 24);
 		fontTitle = TTF_OpenFont("fonts/LuckiestGuy.ttf", 54);
 		
 		// Загрузка ресурсов
-		unique_ptr<Sprite> imgSky = make_unique<Sprite>(renderer, "SkyTileSprite.png");
-		unique_ptr<TextSprite> textFps = make_unique<TextSprite>(fontNormal, renderer, COLOR_YELLOW, "Hello world");
+		Sprite* imgSky = window.createSprite("SkyTileSprite.png");
+		TextSprite* textFps = window.createTextSprite("Hello world", fontNormal, COLOR_YELLOW);
 		textFps->setPos(10, 10);
 
-		unique_ptr<TextSprite> textTitle = make_unique<TextSprite>(fontTitle, renderer, COLOR_BLUE, "Flappy Bird");
+		TextSprite* textTitle = window.createTextSprite("Flappy Bird", fontTitle, COLOR_BLUE);
 		textTitle->setPos(SCREEN_WIDTH / 2 - textTitle->getWidth() / 2, 200);
 
-		unique_ptr<TextSprite> textGameOver = make_unique<TextSprite>(fontTitle, renderer, COLOR_BLUE, "Game Over");
+		TextSprite* textGameOver = window.createTextSprite("Game Over", fontTitle, COLOR_BLUE);
 		textGameOver->setPos(SCREEN_WIDTH / 2 - textTitle->getWidth() / 2, 200);
 
-		unique_ptr<TextSprite> textSubTitle = make_unique<TextSprite>(fontNormal, renderer, COLOR_ORANGE, "= Press SPACE to start =");
+		TextSprite* textSubTitle = window.createTextSprite("= Press SPACE to start =", fontNormal, COLOR_ORANGE);
 		textSubTitle->setPos(SCREEN_WIDTH / 2 - textSubTitle->getWidth() / 2, 250);
 
-		unique_ptr<Sprite> imgBird = make_unique<Sprite>(renderer, "BirdHero.png");
+		Sprite* imgBird = window.createSprite("BirdHero.png");
 
 
 		int score = 0;
-		unique_ptr<TextSprite> textScore = make_unique<TextSprite>(fontNormal, renderer, COLOR_BLUE, "0");
+		TextSprite* textScore = window.createTextSprite("0", fontNormal, COLOR_BLUE);
 		textScore->setPos(SCREEN_WIDTH / 2 - textScore->getWidth() / 2, 20);
 
 		// нарезаем спрайт на несколько
@@ -107,7 +77,7 @@ int main(int argc, char* args[])
 		imgBird->setPos(200, 250);
 
 
-		unique_ptr<Sprite> imgGround = make_unique<Sprite>(renderer, "GrassThinSprite.png");
+		Sprite* imgGround = window.createSprite("GrassThinSprite.png");
 
 		// музыка и звуки
 		unique_ptr<GameMusic> sndTitle = make_unique<GameMusic>("Title.mp3");
@@ -125,13 +95,8 @@ int main(int argc, char* args[])
 		enum class GameState { Menu, Game, GameOver };
 		GameState curGameState{ GameState::Menu };
 		// Цикл игры
-		bool proccess = true;
+
 		SDL_Event event;
-
-		TickTimer fpsTimer;
-		fpsTimer.start();
-
-		TickTimer capTimer;
 		TickTimer flapTimer;
 
 		bool keyReady = true;
@@ -163,25 +128,26 @@ int main(int argc, char* args[])
 				}
 				for (int i = 0; i < 4; i++)
 				{
-					tubes.push_back(new Tube(renderer, SCREEN_WIDTH + i * 180, TubeOrientation::DOWN));
-					tubes.push_back(new Tube(renderer, SCREEN_WIDTH + i * 180, TubeOrientation::UP));
-					tubes.push_back(new Tube(renderer, SCREEN_WIDTH + i * 180, TubeOrientation::COLLIDER));
+					// TODO: 
+					// tubes.push_back(new Tube(renderer, SCREEN_WIDTH + i * 180, TubeOrientation::DOWN));
+					// tubes.push_back(new Tube(renderer, SCREEN_WIDTH + i * 180, TubeOrientation::UP));
+					// tubes.push_back(new Tube(renderer, SCREEN_WIDTH + i * 180, TubeOrientation::COLLIDER));
 				}
 			};
 
 		genTubesFnc();
 
-		while (proccess)
+		while (window.isActive())
 		{
-			capTimer.start();
+			window.startCycle();
 			// Проверка событий
-			while (SDL_PollEvent(&event) != 0) 
+			while (window.haveEvents(&event)) 
 			{
-				if ((event.type == SDL_QUIT) || ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_ESCAPE)))
+				if (isKeyDown(&event, SDLK_ESCAPE))
 				{
-					proccess = false;
+					window.dropWindow();
 				}
-				else if ((event.type == SDL_KEYDOWN) && (event.key.keysym.sym == SDLK_SPACE) && keyReady) {
+				else if (isKeyDown(&event, SDLK_SPACE) && keyReady) {
 					keyReady = false;
 					switch (curGameState)
 					{
@@ -213,7 +179,7 @@ int main(int argc, char* args[])
 						break;
 					}
 				}
-				else if ((event.type == SDL_KEYUP) && (event.key.keysym.sym == SDLK_SPACE)) {
+				else if (isKeyUp(&event, SDLK_SPACE)) {
 					keyReady = true;
 				}
 			}
@@ -279,8 +245,7 @@ int main(int argc, char* args[])
 
 
 			// Отрисовка
-
-			SDL_RenderClear(renderer);
+			window.renderClear();
 			imgSky->draw();
 
 			switch (curGameState)
@@ -310,12 +275,10 @@ int main(int argc, char* args[])
 
 			imgGround->drawToPos(scrollingOffset, SCREEN_HEIGHT - imgGround->getHeight());
 			imgGround->drawToPos(scrollingOffset + imgGround->getWidth(), SCREEN_HEIGHT - imgGround->getHeight());
-			textFps->setText("FPS: " + to_string(fpsTimer.getFPS()));
+			textFps->setText("FPS: " + to_string(window.getFPS()));
 			textFps->draw();
 
-			SDL_RenderPresent(renderer);
-			capTimer.stabilizeFPS(SCREEN_TICK_PER_FRAME);
-			fpsTimer.nextUpdateCycle();
+			window.finishCycle();
 		}	
 		tubes.clear();
 	}
@@ -325,25 +288,7 @@ int main(int argc, char* args[])
 	}
 
 	// Очистка ресурсов
-	printf("clear");
-
-	ResManager::free();
-
 	TTF_CloseFont(fontNormal);
-
-	if (renderer != NULL) {
-		SDL_DestroyRenderer(renderer);
-		renderer = NULL;
-	}
-
-	if (window != NULL)
-	{
-		SDL_DestroyWindow(window);
-		window = NULL;
-	}
-
-	IMG_Quit();
-	SDL_Quit();
 
 
 	return 0;
