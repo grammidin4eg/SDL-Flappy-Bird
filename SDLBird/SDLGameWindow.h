@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <list>
+#include <unordered_map>
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -10,46 +11,62 @@
 #include <SDL_mixer.h>
 
 #include "utils.h"
-#include "Sprite.h"
+#include "SpriteOld.h"
 #include "TextSprite.h"
 #include "TickTimer.h"
+#include "Scene.h"
+#include "Sprite.h"
 
-class SDLGameWindow
-{
-public:
-	// Создать окно
-	SDLGameWindow(int screenWidth, int screenHeight);
+namespace GameObjects {
 
-	// Очистить ресурсы
-	~SDLGameWindow();
+	class Window
+	{
+	public:
+		// Создать окно
+		Window(int screenWidth, int screenHeight);
 
-    Sprite* createSprite(std::string resName);
-	TextSprite* createTextSprite(std::string resName, TTF_Font* font, SDL_Color textColor);
-	Sprite* addSprite(Sprite* newSprite);
+		// Очистить ресурсы
+		~Window();
 
-	void setMaxFPS(int maxFPS);
+		// Добавить сцену
+		void addScene(std::string name, Scene* scene);
 
-	bool isActive();
-	void dropWindow();
+		// Перейти к сцене
+		void gotoScene(std::string name);
 
-	bool haveEvents(SDL_Event* event);
+		// Запустить игру
+		void run();
 
-	void renderClear();
-	void renderPresent();
+		// Установить максимальный FPS
+		void setMaxFPS(int maxFPS);
 
-	void startCycle();
-	void finishCycle();
+		bool isActive();
 
-	float getFPS();
-private:
-	int mScreenWidth;
-	int mScreenHeight;
-	SDL_Window* mWindow;
-	SDL_Renderer* mRenderer;
-	bool mActive;
-	std::list<Sprite*> mSpriteList;
-	TickTimer mCapTimer;
-	TickTimer mFpsTimer;
-	int mMaxFps;
-};
+		// Вернуть Frame Per Second
+		float getFPS();
+
+		SDL_Renderer* getRenderer();
+
+		// Создать спрайт
+		Sprite* createSprite(std::string fileName);
+	private:
+		// список сцен
+		std::unordered_map<std::string, Scene*> mSceneList;
+		// текущая сцена
+		Scene* mCurrentScene;
+
+		// ширина и высота окна
+		int mScreenWidth;
+		int mScreenHeight;
+
+		// ресурсы SDL
+		SDL_Window* mWindow;
+		SDL_Renderer* mRenderer;
+
+		bool mActive;
+		TickTimer mCapTimer;
+		TickTimer mFpsTimer;
+		int mMaxFps;
+	};
+}
 

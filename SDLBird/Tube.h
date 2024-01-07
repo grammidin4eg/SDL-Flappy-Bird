@@ -1,20 +1,20 @@
 #pragma once
-#include "Sprite.h"
+#include "SpriteOld.h"
 
 enum class TubeOrientation { UP, DOWN, COLLIDER };
 
 class Tube :
-    public Sprite
+    public SpriteOld
 {
 public:
-    Tube(SDL_Renderer* renderer, int startPos, TubeOrientation orientation) : Sprite(renderer, "ColumnSprite.png")
+    Tube(SDL_Renderer* renderer, int startPos, TubeOrientation orientation) : SpriteOld(renderer, "ColumnSprite.png")
     {
         mStartPos = startPos;
         mOrientation = orientation;
         if (orientation == TubeOrientation::COLLIDER)
         {
             setHeight(600);
-            Sprite::removeImage();
+            SpriteOld::removeImage();
         }
         resetPos();
     }

@@ -9,7 +9,7 @@
 #include <SDL_mixer.h>
 
 #include "utils.h"
-#include "Sprite.h"
+#include "SpriteOld.h"
 #include "TextSprite.h"
 #include "TickTimer.h"
 #include "Tube.h";
@@ -18,14 +18,16 @@
 
 #include "SDLGameWindow.h"
 #include "Colors.h"
+#include "Scene.h"
+#include "Sprite.h"
 
 using namespace std;
 
 int main(int argc, char* args[])
 {
 	// Константы
-	const int SCREEN_WIDTH = 800;
-	const int SCREEN_HEIGHT = 600;
+	const int SCREEN_WIDTH = 640;
+	const int SCREEN_HEIGHT = 960;
 
 	const int GRAVITY = 2; // гравитация, бессердечная ты...
 	const int TAP_POWER = 17; // сила с которой направляемся вверх
@@ -40,8 +42,17 @@ int main(int argc, char* args[])
 	srand((unsigned)time(NULL));
 
 	try {
-		SDLGameWindow window(SCREEN_WIDTH, SCREEN_HEIGHT);
+		GameObjects::Window window(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+		GameObjects::Scene* menu = new GameObjects::Scene();
+		GameObjects::Sprite* background = window.createSprite("background.png");
+
+		menu->addObject(background);
+		window.addScene("menu", menu);
+
+		window.run();
+
+		/*
 		// Шрифты
 		fontNormal = ResManager::getFont("LuckiestGuy.ttf", 24);
 		fontTitle = ResManager::getFont("LuckiestGuy.ttf", 54);
@@ -281,12 +292,12 @@ int main(int argc, char* args[])
 			window.finishCycle();
 		}	
 		tubes.clear();
+		*/
 	}
 	catch (logic_error& error)
 	{
 		printf("Error: %s. SDL Error: %s\n", error.what(), SDL_GetError());
 	}
 
-	// Очистка ресурсов
 	return 0;
 }

@@ -133,10 +133,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameSound.cpp" />
+    <ClCompile Include="Object.cpp" />
     <ClCompile Include="ResManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SDLBird.cpp" />
     <ClCompile Include="SDLGameWindow.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="SpriteOld.cpp" />
     <ClCompile Include="TextSprite.cpp" />
     <ClCompile Include="TickTimer.cpp" />
     <ClCompile Include="Tube.cpp" />
@@ -145,31 +148,19 @@
   <ItemGroup>
     <ClInclude Include="Colors.h" />
     <ClInclude Include="GameSound.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="ResManager.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="SDLGameWindow.h" />
     <ClInclude Include="Sprite.h" />
+    <ClInclude Include="SpriteOld.h" />
     <ClInclude Include="TextSprite.h" />
     <ClInclude Include="TickTimer.h" />
     <ClInclude Include="Tube.h" />
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="images\BirdHero.png" />
-    <Image Include="images\ColumnSprite.png" />
-    <Image Include="images\GrassThinSprite.png" />
-    <Image Include="images\SkyTileSprite.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="fonts\LuckiestGuy.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="sound\Bonus.mp3" />
-    <Media Include="sound\flap.wav" />
-    <Media Include="sound\Game.mp3" />
-    <Media Include="sound\GameOver 3.mp3" />
-    <Media Include="sound\GameOver.mp3" />
-    <Media Include="sound\hit.wav" />
-    <Media Include="sound\Title.mp3" />
+    <Image Include="images\background.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

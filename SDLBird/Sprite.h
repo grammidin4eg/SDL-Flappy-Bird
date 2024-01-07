@@ -1,72 +1,50 @@
 #pragma once
+#include "Object.h"
+#include <string>
 
-#include <stdio.h>
-#include <iostream>
-
-#include <SDL.h>
 #include <SDL_image.h>
+#include "ResManager.h"
 
+namespace GameObjects {
+    class Sprite :
+        public Object
+    {
+    public:
+        Sprite(SDL_Renderer* renderer, std::string fileName) : Object(renderer)
+        {
+            mClip = NULL;
+            mAngle = 0;
+            mFlip = SDL_FLIP_NONE;
+            loadSurface(ResManager::getImg(fileName));
+        }
+        ~Sprite();
 
-#include "utils.h";
+        virtual void update();
+        virtual void draw();
+        virtual void free();
 
+        int getWidth();
+        int getHeight();
 
-class Sprite
-{
-public:
-	// Создать пустой спрайт
-	Sprite(SDL_Renderer* renderer);
+        // установить область, которую рисуем из текстуры
+        void setClip(SDL_Rect* clip);
 
-	// Создать спрайт из файла
-	Sprite(SDL_Renderer* renderer, std::string name);
+        // установить угол поворота
+        void setAngle(double angle);
 
-	~Sprite();
-	
-	void draw();
-	void drawToPos(int x, int y);
+        // установить отзеркаливание
+        void setFlip(SDL_RendererFlip flip);
 
-	void setClip(SDL_Rect* clip);
+        void loadSurface(SDL_Surface* loadedSurface);
+    private:
+        // область, которую рисуем из спрайта
+        SDL_Rect* mClip;
 
-	int getWidth();
-	int getHeight();
+        // угол поворота
+        double mAngle;
+        SDL_RendererFlip mFlip;
 
-	void setWidth(int width);
-	void setHeight(int height);
-
-	void setPos(int x, int y);
-
-	int getX();
-	int getY();
-
-	void setAngle(double angle);
-	void setFlip(SDL_RendererFlip flip);
-
-	void setCheckCollision(bool check);
-	bool isCheckCollision();
-	bool checkCollision(Sprite* another);
-
-	void removeImage();
-
-
-protected:
-	int mX;
-	int mY;
-	void init();
-	void loadSurface(SDL_Surface* loadedSurface);
-private:
-	int mWidth;
-	int mHeight;
-
-	// область, которую рисуем из спрайта
-	SDL_Rect* mClip;
-
-	// угол поворота
-	double mAngle;
-	SDL_RendererFlip mFlip;
-
-	SDL_Texture* mTexture;
-	SDL_Renderer* mRenderer;
-
-	bool mCheckCollision;
-
-};
+        SDL_Texture* mTexture;
+    };
+}
 
