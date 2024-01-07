@@ -17,8 +17,12 @@
 class SDLGameWindow
 {
 public:
+	// Создать окно
 	SDLGameWindow(int screenWidth, int screenHeight);
+
+	// Очистить ресурсы
 	~SDLGameWindow();
+
     Sprite* createSprite(std::string resName);
 	TextSprite* createTextSprite(std::string resName, TTF_Font* font, SDL_Color textColor);
 	Sprite* addSprite(Sprite* newSprite);

@@ -43,8 +43,8 @@ int main(int argc, char* args[])
 		SDLGameWindow window(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		// Шрифты
-		fontNormal = TTF_OpenFont("fonts/LuckiestGuy.ttf", 24);
-		fontTitle = TTF_OpenFont("fonts/LuckiestGuy.ttf", 54);
+		fontNormal = ResManager::getFont("LuckiestGuy.ttf", 24);
+		fontTitle = ResManager::getFont("LuckiestGuy.ttf", 54);
 		
 		// Загрузка ресурсов
 		Sprite* imgSky = window.createSprite("SkyTileSprite.png");
@@ -288,8 +288,5 @@ int main(int argc, char* args[])
 	}
 
 	// Очистка ресурсов
-	TTF_CloseFont(fontNormal);
-
-
 	return 0;
 }
