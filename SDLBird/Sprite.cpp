@@ -4,6 +4,9 @@ namespace GameObjects {
 	{
 		free();
 	}
+	void Sprite::start()
+	{
+	}
 	void Sprite::update()
 	{
 	}
@@ -37,6 +40,14 @@ namespace GameObjects {
 	{
 		return (mClip == NULL ? Object::getHeight() : mClip->h);
 	}
+	int Sprite::getOriginalWidth()
+	{
+		return mOriginalWidth;
+	}
+	int Sprite::getOriginalHeight()
+	{
+		return mOriginalHeight;
+	}
 	void Sprite::setClip(SDL_Rect* clip)
 	{
 		mClip = clip;
@@ -58,6 +69,9 @@ namespace GameObjects {
 
 			setWidth(loadedSurface->w);
 			setHeight(loadedSurface->h);
+
+			mOriginalHeight = loadedSurface->h;
+			mOriginalWidth = loadedSurface->w;
 		}
 	}
 }

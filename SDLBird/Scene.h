@@ -14,6 +14,9 @@ namespace GameObjects {
 		// очистить
 		~Scene();
 
+		// старт сцены
+		void start();
+
 		// обновить сцену
 		void update();
 		// отрисовать сцену

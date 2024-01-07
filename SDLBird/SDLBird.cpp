@@ -20,6 +20,7 @@
 #include "Colors.h"
 #include "Scene.h"
 #include "Sprite.h"
+#include "Text.h"
 
 using namespace std;
 
@@ -47,10 +48,21 @@ int main(int argc, char* args[])
 		GameObjects::Scene* menu = new GameObjects::Scene();
 		GameObjects::Sprite* background = window.createSprite("background.png");
 
+		background->setWidth(SCREEN_WIDTH);
+		background->setHeight(SCREEN_HEIGHT);
+
+		GameObjects::Text* fpsText = window.createText(ResManager::getFont("LuckiestGuy.ttf", 24), GameObjects::COLOR_YELLOW, "0");
+		fpsText->setPos(10, 10);
+
 		menu->addObject(background);
+		menu->addObject(fpsText);
+
 		window.addScene("menu", menu);
 
 		window.run();
+
+		// כÿלבהא? ךכאססû?
+		// כÿלבהא םא סעאנע ט םא אןהויע
 
 		/*
 		// Øנטפעû

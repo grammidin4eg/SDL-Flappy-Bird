@@ -21,7 +21,7 @@ SDL_Surface* ResManager::getImg(string name)
 	{
 		string path = "images/" + name;
 		SDL_Surface* loadedImg = IMG_Load(path.c_str());
-		exceptionIfNull(loadedImg, "Unable to load image");
+		GameObjects::exceptionIfNull(loadedImg, "Unable to load image");
 		res->insert(make_pair(name, loadedImg));
 		// printf("load: %s\n", name.c_str());
 		return loadedImg;
@@ -41,7 +41,7 @@ TTF_Font* ResManager::getFont(string name, int size)
 	{
 		string path = "fonts/" + name;
 		TTF_Font* newFont = TTF_OpenFont(path.c_str(), size);
-		exceptionIfNull(newFont, "Unable to load font");
+		GameObjects::exceptionIfNull(newFont, "Unable to load font");
 		res->insert(make_pair(key, newFont));
 		return newFont;
 	}

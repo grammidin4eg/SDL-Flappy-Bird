@@ -19,12 +19,16 @@ namespace GameObjects {
         }
         ~Sprite();
 
+        virtual void start();
         virtual void update();
         virtual void draw();
         virtual void free();
 
         int getWidth();
         int getHeight();
+
+        int getOriginalWidth();
+        int getOriginalHeight();
 
         // установить область, которую рисуем из текстуры
         void setClip(SDL_Rect* clip);
@@ -45,6 +49,9 @@ namespace GameObjects {
         SDL_RendererFlip mFlip;
 
         SDL_Texture* mTexture;
+
+        int mOriginalWidth;
+        int mOriginalHeight;
     };
 }
 

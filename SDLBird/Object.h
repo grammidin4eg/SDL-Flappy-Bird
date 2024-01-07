@@ -1,10 +1,13 @@
 #pragma once
 #include <SDL.h>
+#include "utils.h"
 namespace GameObjects {
 	class Object
 	{
 	public:
 		Object(SDL_Renderer* renderer);
+
+		virtual void start();
 		virtual void update();
 		virtual void draw();
 		virtual void free();

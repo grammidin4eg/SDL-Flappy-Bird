@@ -4,7 +4,7 @@ GameSound::GameSound(std::string name)
 {
 	std::string path = "sound/" + name;
 	mSound = Mix_LoadWAV(path.c_str());
-	exceptionIfNull(mSound, "Failed to load sound file.");
+	GameObjects::exceptionIfNull(mSound, "Failed to load sound file.");
 }
 
 GameSound::~GameSound()
@@ -22,7 +22,7 @@ GameMusic::GameMusic(std::string name)
 {
 	std::string path = "sound/" + name;
 	mSound = Mix_LoadMUS(path.c_str());
-	exceptionIfNull(mSound, "Failed to load sound file.");
+	GameObjects::exceptionIfNull(mSound, "Failed to load sound file.");
 }
 
 GameMusic::~GameMusic()

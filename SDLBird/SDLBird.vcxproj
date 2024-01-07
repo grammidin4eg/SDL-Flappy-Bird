@@ -140,6 +140,7 @@
     <ClCompile Include="SDLGameWindow.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteOld.cpp" />
+    <ClCompile Include="Text.cpp" />
     <ClCompile Include="TextSprite.cpp" />
     <ClCompile Include="TickTimer.cpp" />
     <ClCompile Include="Tube.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="SDLGameWindow.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="SpriteOld.h" />
+    <ClInclude Include="Text.h" />
     <ClInclude Include="TextSprite.h" />
     <ClInclude Include="TickTimer.h" />
     <ClInclude Include="Tube.h" />

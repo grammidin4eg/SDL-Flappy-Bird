@@ -16,6 +16,7 @@
 #include "TickTimer.h"
 #include "Scene.h"
 #include "Sprite.h"
+#include "Text.h"
 
 namespace GameObjects {
 
@@ -49,6 +50,9 @@ namespace GameObjects {
 
 		// Создать спрайт
 		Sprite* createSprite(std::string fileName);
+
+		// Создать текст
+		Text* createText(TTF_Font* font, SDL_Color textColor, std::string text);
 	private:
 		// список сцен
 		std::unordered_map<std::string, Scene*> mSceneList;

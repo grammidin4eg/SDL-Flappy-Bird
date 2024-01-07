@@ -5,7 +5,9 @@
 
 #include <SDL.h>
 
-void exceptionIfNull(void* obj, const char* msg);
+namespace GameObjects {
+	void exceptionIfNull(void* obj, const char* msg);
 
-bool isKeyDown(SDL_Event* event, SDL_Keycode keyCode);
-bool isKeyUp(SDL_Event* event, SDL_Keycode keyCode);
+	bool isKeyDown(SDL_Event* event, SDL_Keycode keyCode);
+	bool isKeyUp(SDL_Event* event, SDL_Keycode keyCode);
+}

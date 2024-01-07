@@ -160,7 +160,7 @@ void SpriteOld::loadSurface(SDL_Surface* loadedSurface)
 	if (loadedSurface) 
 	{
 		mTexture = SDL_CreateTextureFromSurface(mRenderer, loadedSurface);
-		exceptionIfNull(mTexture, "Unable to create texture.");
+		GameObjects::exceptionIfNull(mTexture, "Unable to create texture.");
 
 		mWidth = loadedSurface->w;
 		mHeight = loadedSurface->h;

@@ -12,6 +12,14 @@ namespace GameObjects {
 		}
 	}
 
+	void Scene::start()
+	{
+		for (auto iter = mObjectList.begin(); iter != mObjectList.end(); iter++)
+		{
+			(*iter)->start();
+		}
+	}
+
 	void Scene::update()
 	{
 		for (auto iter = mObjectList.begin(); iter != mObjectList.end(); iter++)

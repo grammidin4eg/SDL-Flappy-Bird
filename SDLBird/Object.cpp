@@ -10,6 +10,9 @@ namespace GameObjects {
 
 		mRenderer = renderer;
 	}
+	void Object::start()
+	{
+	}
 	void Object::update()
 	{
 	}

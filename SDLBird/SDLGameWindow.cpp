@@ -85,11 +85,13 @@ namespace GameObjects {
 		if (findedScene != mSceneList.end())
 		{
 			mCurrentScene = findedScene->second;
+			mCurrentScene->start();
 		}
 	}
 
 	void Window::run()
 	{
+		mCurrentScene->start();
 		while (this->isActive())
 		{
 			mCapTimer.start();
@@ -137,5 +139,9 @@ namespace GameObjects {
 	Sprite* Window::createSprite(std::string fileName)
 	{
 		return new Sprite(mRenderer, fileName);
+	}
+	Text* Window::createText(TTF_Font* font, SDL_Color textColor, std::string text)
+	{
+		return new Text(mRenderer, font, textColor, text);
 	}
 }
