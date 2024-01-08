@@ -22,6 +22,8 @@
 #include "Sprite.h"
 #include "Text.h"
 
+#include "MenuScene.h"
+
 using namespace std;
 
 int main(int argc, char* args[])
@@ -45,19 +47,15 @@ int main(int argc, char* args[])
 	try {
 		GameObjects::Window window(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-		GameObjects::Scene* menu = new GameObjects::Scene();
-		GameObjects::Sprite* background = window.createSprite("background.png");
-
-		background->setWidth(SCREEN_WIDTH);
-		background->setHeight(SCREEN_HEIGHT);
+		/*
 
 		GameObjects::Text* fpsText = window.createText(ResManager::getFont("LuckiestGuy.ttf", 24), GameObjects::COLOR_YELLOW, "0");
 		fpsText->setPos(10, 10);
 
 		menu->addObject(background);
-		menu->addObject(fpsText);
+		menu->addObject(fpsText);*/
 
-		window.addScene("menu", menu);
+		window.addScene("menu", new MenuScene());
 
 		window.run();
 

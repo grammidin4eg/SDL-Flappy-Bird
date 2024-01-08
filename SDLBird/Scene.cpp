@@ -39,4 +39,10 @@ namespace GameObjects {
 	{
 		mObjectList.push_back(obj);
 	}
+	void Scene::onInit(SDL_Renderer* renderer, SDL_Rect winSize)
+	{
+	}
+	void Scene::onStart(SDL_Renderer* renderer, SDL_Rect winSize)
+	{
+	}
 }

@@ -73,6 +73,7 @@ namespace GameObjects {
 
 	void Window::addScene(std::string name, Scene* scene)
 	{
+		scene->onInit(mRenderer, SDL_Rect {0, 0, mScreenWidth, mScreenHeight});
 		mSceneList.insert(make_pair(name, scene));
 		if (mCurrentScene == NULL) {
 			mCurrentScene = scene;
